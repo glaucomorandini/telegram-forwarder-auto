@@ -1,14 +1,14 @@
 #    Copyright (c) 2021 Ayush
-#    
-#    This program is free software: you can redistribute it and/or modify  
-#    it under the terms of the GNU General Public License as published by  
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, version 3.
-# 
-#    This program is distributed in the hope that it will be useful, but 
-#    WITHOUT ANY WARRANTY; without even the implied warranty of 
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+#
+#    This program is distributed in the hope that it will be useful, but
+#    WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 #    General Public License for more details.
-# 
+#
 #    License can be found in < https://github.com/Ayush7445/telegram-auto_forwarder/blob/main/License > .
 
 from telethon import TelegramClient, events
@@ -31,22 +31,39 @@ FROM = [int(i) for i in FROM_.split()]
 TO = [int(i) for i in TO_.split()]
 
 try:
-    BotzHubUser = TelegramClient(StringSession(SESSION), APP_ID, API_HASH)
-    BotzHubUser.start()
+    cliente = TelegramClient(StringSession(SESSION), APP_ID, API_HASH)
+    cliente.start()
 except Exception as ap:
     print(f"ERROR - {ap}")
     exit(1)
 
-@BotzHubUser.on(events.NewMessage(incoming=True, chats=FROM))
-async def sender_bH(event):
+@cliente.on(events.NewMessage(incoming=True, chats=FROM))
+async def sender_message(event):
+    async with client:
+    # Does it have a username? Use it!
+    entity = await client.get_entity(username)
+
+    # Do you have a conversation open with them? Get dialogs.
+    await client.get_dialogs()
+
+    # Are they participant of some group? Get them.
+    await client.get_participants('username')
+
+    # Is the entity the original sender of a forwarded message? Get it.
+    await client.get_messages('username', 100)
+
     for i in TO:
         try:
-            await BotzHubUser.send_message(
+            await cliente.send_message(
                 i,
                 event.message
             )
         except Exception as e:
             print(e)
 
+    print(entity)
+
+
+
 print("Bot has started.")
-BotzHubUser.run_until_disconnected()
+cliente.run_until_disconnected()
