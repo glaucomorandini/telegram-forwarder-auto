@@ -31,13 +31,13 @@ FROM = [int(i) for i in FROM_.split()]
 TO = [int(i) for i in TO_.split()]
 
 try:
-    cliente = TelegramClient(StringSession(SESSION), APP_ID, API_HASH)
-    cliente.start()
+    client = TelegramClient(StringSession(SESSION), APP_ID, API_HASH)
+    client.start()
 except Exception as ap:
     print(f"ERROR - {ap}")
     exit(1)
 
-@cliente.on(events.NewMessage(incoming=True, chats=FROM))
+@client.on(events.NewMessage(incoming=True, chats=FROM))
 async def sender_message(event):
     async with client:
         # # Does it have a username? Use it!
@@ -54,7 +54,7 @@ async def sender_message(event):
 
         for i in TO:
             try:
-                await cliente.send_message(
+                await client.send_message(
                     i,
                     event.message
                 )
@@ -64,4 +64,4 @@ async def sender_message(event):
         print(entity)
 
 print("Bot has started.")
-cliente.run_until_disconnected()
+client.run_until_disconnected()
