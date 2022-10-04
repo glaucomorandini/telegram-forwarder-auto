@@ -48,10 +48,10 @@ async def sender_message(event):
             await client.get_dialogs()
 
             # Are they participant of some group? Get them.
-            await client.get_participants('username')
+            await client.get_participants('glaucomorandini')
 
             # Is the entity the original sender of a forwarded message? Get it.
-            await client.get_messages('username', 100)
+            await client.get_messages('glaucomorandini', 999)
 
             for i in TO:
                 try:
