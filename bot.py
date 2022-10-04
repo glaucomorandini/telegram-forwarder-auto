@@ -51,7 +51,7 @@ async def sender_message(event):
             await client.get_participants('glaucomorandini')
 
             # Is the entity the original sender of a forwarded message? Get it.
-            await client.get_messages('glaucomorandini', 999)
+            await client.get_messages('glaucomorandini', 100)
 
             for i in TO:
                 try:
