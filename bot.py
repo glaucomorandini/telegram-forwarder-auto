@@ -60,6 +60,9 @@ async def sender_message(event):
                     event.message
                 )
 
+                entity = await client.get_entity(i)
+                print(entity)
+
         except Exception as e:
             print('cannot fetch user')
             print(e)
