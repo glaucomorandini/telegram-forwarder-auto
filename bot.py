@@ -31,41 +31,34 @@ FROM = [int(i) for i in FROM_.split()]
 TO = [int(i) for i in TO_.split()]
 
 try:
-    client = TelegramClient(StringSession(SESSION), APP_ID, API_HASH)
-    client.start()
+    BotzHubUser = TelegramClient(StringSession(SESSION), APP_ID, API_HASH)
+    BotzHubUser.start()
 except Exception as ap:
     print(f"ERROR - {ap}")
     exit(1)
 
-@client.on(events.NewMessage(incoming=True, chats=FROM))
-async def sender_message(event):
-    async with client:
-        print('--- client')
+@BotzHubUser.on(events.NewMessage(incoming=True, chats=FROM))
+async def sender_bH(event):
+    for i in TO:
+        # # Does it have a username? Use it!
+        # entity = await client.get_entity(username)
+
+        # Do you have a conversation open with them? Get dialogs.
+        await BotzHubUser.get_dialogs()
+
+        # Are they participant of some group? Get them.
+        await BotzHubUser.get_participants('glaucomorandini')
+
+        # Is the entity the original sender of a forwarded message? Get it.
+        await BotzHubUser.get_messages('glaucomorandini', 100)
+
         try:
-            # # Does it have a username? Use it!
-            # entity = await client.get_entity(username)
-
-            # Do you have a conversation open with them? Get dialogs.
-            await client.get_dialogs()
-
-            # Are they participant of some group? Get them.
-            await client.get_participants('glaucomorandini')
-
-            # Is the entity the original sender of a forwarded message? Get it.
-            await client.get_messages('glaucomorandini', 100)
-
-            for i in TO:
-                await client.send_message(
-                    i,
-                    event.message
-                )
-
-                entity = await client.get_entity(i)
-                print(entity)
-
+            await BotzHubUser.send_message(
+                i,
+                event.message
+            )
         except Exception as e:
-            print('cannot fetch user')
             print(e)
 
 print("Bot has started.")
-client.run_until_disconnected()
+BotzHubUser.run_until_disconnected()
