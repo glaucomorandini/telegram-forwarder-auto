@@ -40,30 +40,28 @@ except Exception as ap:
 @cliente.on(events.NewMessage(incoming=True, chats=FROM))
 async def sender_message(event):
     async with client:
-    # Does it have a username? Use it!
-    entity = await client.get_entity(username)
+        # Does it have a username? Use it!
+        entity = await client.get_entity(username)
 
-    # Do you have a conversation open with them? Get dialogs.
-    await client.get_dialogs()
+        # Do you have a conversation open with them? Get dialogs.
+        await client.get_dialogs()
 
-    # Are they participant of some group? Get them.
-    await client.get_participants('username')
+        # Are they participant of some group? Get them.
+        await client.get_participants('username')
 
-    # Is the entity the original sender of a forwarded message? Get it.
-    await client.get_messages('username', 100)
+        # Is the entity the original sender of a forwarded message? Get it.
+        await client.get_messages('username', 100)
 
-    for i in TO:
-        try:
-            await cliente.send_message(
-                i,
-                event.message
-            )
-        except Exception as e:
-            print(e)
+        for i in TO:
+            try:
+                await cliente.send_message(
+                    i,
+                    event.message
+                )
+            except Exception as e:
+                print(e)
 
-    print(entity)
-
-
+        print(entity)
 
 print("Bot has started.")
 cliente.run_until_disconnected()
