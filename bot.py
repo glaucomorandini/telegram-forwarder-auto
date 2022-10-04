@@ -40,8 +40,8 @@ except Exception as ap:
 @cliente.on(events.NewMessage(incoming=True, chats=FROM))
 async def sender_message(event):
     async with client:
-        # Does it have a username? Use it!
-        entity = await client.get_entity(username)
+        # # Does it have a username? Use it!
+        # entity = await client.get_entity(username)
 
         # Do you have a conversation open with them? Get dialogs.
         await client.get_dialogs()
